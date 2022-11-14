@@ -1,0 +1,127 @@
+package balancer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Random;
+import java.util.concurrent.Semaphore;
+
+import client.Client;
+import server.ServerAux;
+
+public class Balancer extends Thread{
+	
+		private int SERVER = 0;
+		private int WORKER = 1;
+		private int CLIENT = 2;
+		
+		static int serverId;
+		
+		private ServerAux aux;
+		private Client client;
+		
+		private DataInputStream input;
+		private DataOutputStream output;
+		
+		private Semaphore semaphore;
+		
+		Random rand = new Random();
+		
+		static boolean bool = true;
+		
+		private final int type;
+		
+		public Balancer (ServerAux aux, Semaphore semaphore) {
+			this.type = SERVER;
+			this.aux = aux;
+			this.semaphore = semaphore;
+		}
+		
+		public Balancer (Client client) {
+			this.type = CLIENT;
+			this.client = client;
+		}
+		public Balancer (DataInputStream input, DataOutputStream output, ServerAux aux, Semaphore semaphore) {
+			this.type = WORKER;
+			this.input = input;
+			this.output = output;
+			this.aux = aux;
+			this.semaphore = semaphore;
+		}
+		
+		public void run() {
+			if (type == SERVER) {
+				aux.setSemaphore(semaphore);
+				aux.dispatch();
+			}
+		
+			if (type == CLIENT) {
+				client.start();
+				
+				while(true) {
+					bool = rand.nextBoolean();
+					if (bool) {
+						client.sendBoolean(bool);
+						client.sendRandom();
+						client.primeResult();						
+					}
+					else {
+						client.sendBoolean(bool);
+					}
+					try {
+						Thread.sleep(rand.nextInt((300) + 100));
+					}
+					catch (InterruptedException e){
+						throw new RuntimeException(e);
+					}
+				}
+			}
+			else {
+				int num;
+				try {
+					FileWriter fw1 = new FileWriter ("file1.txt");
+					FileWriter fw2 = new FileWriter ("file2.txt");
+					FileWriter fw3 = new FileWriter ("file3.txt");
+					while (true) {
+						try {
+							this.semaphore.acquire();
+							if (getBoolean()) {
+								num = getInput();
+								aux.writeRequest(num, fw1, fw2, fw3, output);	
+							}
+							else {
+								aux.readRequest();
+							} 
+						}
+						catch (InterruptedException e) {
+							throw new RuntimeException(e);
+						}
+						this.semaphore.release();
+					}
+				}
+				catch (IOException e) {
+				    System.out.println("An error occurred.");
+				    e.printStackTrace();
+				}
+			}
+		}
+		
+		private int getInput() {
+			try {
+				return input.readInt();
+			}
+			catch(IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		
+		private boolean getBoolean () {
+			try {
+				return input.readBoolean();
+			}
+			catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			
+		}
+}
