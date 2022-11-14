@@ -1,0 +1,109 @@
+package server;
+
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+
+public class Server {
+	private final int id;
+	File file1, file2, file3;
+	
+	private static int count;
+	
+	public Server() {
+		id = count;
+		count++;
+	}
+	
+	public int getId() {
+		return this.id;
+	}
+	
+	public boolean isPrime(int num){
+		if (num <2) {
+			return false;
+		}
+		for (int i=2; i<num; i++) {
+			if (num%i == 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public void primeResult(FileWriter fw, int num) {
+		try {
+			if(isPrime(num)) {
+				fw.write(num + " is prime\n");
+				fw.flush();
+			}
+			else {
+				fw.write(num + " is not prime\n");
+				fw.flush();
+			}
+		}
+		catch (IOException e){
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public void writeFile(int num, FileWriter fw1, FileWriter fw2, FileWriter fw3) {
+		if (id == 0) {
+			primeResult(fw1, num);	
+		}
+		else if (id == 1) {
+			primeResult(fw2, num);
+		}
+		else if (id == 2) {
+			primeResult(fw3, num);
+		}
+	}
+	
+	public void readFile() {
+		String str; 
+		if (id == 0) {
+			try {
+				BufferedReader reader = new BufferedReader(new FileReader("file1.txt"));
+				System.out.println("\nServer 1\n");
+				while((str = reader.readLine())!= null) {
+					System.out.println(str);
+				}
+				reader.close();
+			}
+			catch (IOException e) {
+				e.getStackTrace();
+			}
+		}
+		else if (id == 1) {
+			try {
+				BufferedReader reader = new BufferedReader(new FileReader("file2.txt"));
+				System.out.println("\nServer 2\n");
+				while((str = reader.readLine())!= null) {
+					System.out.println(str);
+				}
+				reader.close();
+			}
+			catch (IOException e) {
+				e.getStackTrace();
+			}
+		}
+		else if (id == 2) {
+			try {
+				BufferedReader reader = new BufferedReader(new FileReader("file3.txt"));
+				System.out.println("\nServer3\n");
+				while((str = reader.readLine())!= null) {
+					System.out.println(str);
+				}
+				reader.close();
+			}
+			catch (IOException e) {
+				e.getStackTrace();
+			}
+		}
+	}
+	
+}
