@@ -1,4 +1,4 @@
-package listaCampa;
+package lista03;
 
 import java.util.Random;
 
