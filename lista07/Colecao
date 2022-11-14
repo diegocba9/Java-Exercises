@@ -1,0 +1,40 @@
+package lista07;
+
+import java.io.*;
+
+public class Colecao {
+
+	public void escrita() throws IOException {
+
+		Pessoa pessoa = new Pessoa("Pessoa1", 123456, "11223344");
+
+		File arq = new File("objeto.uni");
+		arq.createNewFile();
+		
+		FileOutputStream output = new FileOutputStream(arq);
+		ObjectOutputStream arq_output = new ObjectOutputStream(output);
+
+		arq_output.writeObject(pessoa);
+		arq_output.close();
+	}
+
+	public void leitura() throws ClassNotFoundException, IOException {
+
+		File arq = new File("objeto.uni");
+		FileInputStream input = new FileInputStream(arq);
+		ObjectInputStream obj_input = new ObjectInputStream(input);
+		Object objeto = obj_input.readObject();
+
+		Pessoa pessoa = (Pessoa) objeto;
+		(obj_input).close();
+
+		System.out.println(pessoa.printPessoas());
+	}
+
+	public static void main(String[] args) throws ClassNotFoundException, IOException {
+		Colecao colecao = new Colecao();
+		colecao.escrita();
+		colecao.leitura();
+	}
+
+}
