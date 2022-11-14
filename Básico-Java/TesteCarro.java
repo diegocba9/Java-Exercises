@@ -1,4 +1,4 @@
-package ListaEx;
+package Lista01;
 
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class TesteCarro {
 
 			System.out.println("1 - Cadastrar carro");
 			System.out.println("2 - Imprimir dados");
-			System.out.println("3 - Testar Aceleração");
+			System.out.println("3 - Testar AceleraÃ§Ã£o");
 			System.out.println("4 - Testar freios");
 			System.out.println("5 - Encerrar");
 			option = input.nextInt();
@@ -45,7 +45,7 @@ public class TesteCarro {
 			case 2:
 
 				while (count == -1) {
-					System.out.print("Insira qual carro você quer imprimir: ");
+					System.out.print("Insira qual carro vocÃª quer imprimir: ");
 					count = input.nextInt();
 
 					if (listaCarros.isEmpty() == true) {
@@ -53,7 +53,7 @@ public class TesteCarro {
 					}
 
 					else if (count < 1 || count > listaCarros.get(0).getNumCarros()) {
-						System.out.println("Insira um carro válido!");
+						System.out.println("Insira um carro vÃ¡lido!");
 						count = -1;
 					}
 
@@ -67,7 +67,7 @@ public class TesteCarro {
 			case 3:
 
 				while (count == -1) {
-					System.out.print("Insira qual carro você quer testar a aceleração: ");
+					System.out.print("Insira qual carro vocÃª quer testar a aceleraÃ§Ã£o: ");
 					count = input.nextInt();
 
 					if (listaCarros.isEmpty() == true) {
@@ -75,7 +75,7 @@ public class TesteCarro {
 					}
 
 					else if (count < 1 || count > listaCarros.get(0).getNumCarros()) {
-						System.out.println("Insira um carro válido!");
+						System.out.println("Insira um carro vÃ¡lido!");
 						count = -1;
 					}
 
@@ -89,7 +89,7 @@ public class TesteCarro {
 
 			case 4:
 				while (count == -1) {
-					System.out.print("Insira qual carro você quer testar a aceleração: ");
+					System.out.print("Insira qual carro vocÃª quer testar a aceleraÃ§Ã£o: ");
 					count = input.nextInt();
 
 					if (listaCarros.isEmpty() == true) {
@@ -97,7 +97,7 @@ public class TesteCarro {
 					}
 
 					else if (count < 1 || count > listaCarros.get(0).getNumCarros()) {
-						System.out.println("Insira um carro válido!");
+						System.out.println("Insira um carro vÃ¡lido!");
 						count = -1;
 					}
 
