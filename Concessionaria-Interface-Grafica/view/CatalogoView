@@ -1,0 +1,255 @@
+package view;
+
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import controller.OrdemServicoController;
+import model.OrdemServico;
+
+public class CatalogoView {
+
+	int count;
+	private OrdemServico os;
+	private OrdemServicoController controller;
+
+	private JFrame frame;
+	private JTextField txtDescricao;
+	private JTextField txtInserirDescricao;
+	private JTextField txtInserirPreco;
+	private JTextField txtPreco;
+	private JTextField txtInserirQtde;
+	private JTextField txtQtde;
+
+	public CatalogoView() {
+		initialize();
+		frame.setVisible(true);
+	}
+
+	public void setOS(OrdemServico os) {
+		this.os = os;
+	}
+
+	public void setController(OrdemServicoController controller) {
+		this.controller = controller;
+	}
+
+	private void initialize() {
+		frame = new JFrame();
+		frame.setTitle("Itens do cat\u00E1logo");
+		frame.setBounds(500, 100, 550, 200);
+		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+
+		JPanel panelInfos = new JPanel();
+		frame.getContentPane().add(panelInfos, BorderLayout.NORTH);
+		GridBagLayout gbl_panelInfos = new GridBagLayout();
+		gbl_panelInfos.columnWidths = new int[] { 216, 0, 0 };
+		gbl_panelInfos.rowHeights = new int[] { 0, 0 };
+		gbl_panelInfos.columnWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
+		gbl_panelInfos.rowWeights = new double[] { 0.0, 0.0 };
+		panelInfos.setLayout(gbl_panelInfos);
+
+		txtInserirDescricao = new JTextField();
+		txtInserirDescricao.setText("Insira a descri\u00E7\u00E3o do servi\u00E7o a ser realizado:");
+		txtInserirDescricao.setEditable(false);
+		GridBagConstraints gbc_txtInserirDescricao = new GridBagConstraints();
+		gbc_txtInserirDescricao.insets = new Insets(0, 0, 5, 5);
+		gbc_txtInserirDescricao.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtInserirDescricao.gridx = 0;
+		gbc_txtInserirDescricao.gridy = 0;
+		panelInfos.add(txtInserirDescricao, gbc_txtInserirDescricao);
+		txtInserirDescricao.setColumns(10);
+
+		txtDescricao = new JTextField();
+		GridBagConstraints gbc_txtDescricao = new GridBagConstraints();
+		gbc_txtDescricao.insets = new Insets(0, 0, 5, 0);
+		gbc_txtDescricao.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtDescricao.gridx = 1;
+		gbc_txtDescricao.gridy = 0;
+		panelInfos.add(txtDescricao, gbc_txtDescricao);
+		txtDescricao.setColumns(10);
+
+		txtInserirPreco = new JTextField();
+		txtInserirPreco.setText("Insira o pre\u00E7o do servi\u00E7o: ");
+		txtInserirPreco.setEditable(false);
+		GridBagConstraints gbc_txtInserirPreco = new GridBagConstraints();
+		gbc_txtInserirPreco.insets = new Insets(0, 0, 5, 5);
+		gbc_txtInserirPreco.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtInserirPreco.gridx = 0;
+		gbc_txtInserirPreco.gridy = 1;
+		panelInfos.add(txtInserirPreco, gbc_txtInserirPreco);
+		txtInserirPreco.setColumns(10);
+
+		txtPreco = new JTextField();
+		GridBagConstraints gbc_txtPreco = new GridBagConstraints();
+		gbc_txtPreco.insets = new Insets(0, 0, 5, 0);
+		gbc_txtPreco.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPreco.gridx = 1;
+		gbc_txtPreco.gridy = 1;
+		panelInfos.add(txtPreco, gbc_txtPreco);
+		txtPreco.setColumns(10);
+
+		JPanel panelBotao = new JPanel();
+		frame.getContentPane().add(panelBotao, BorderLayout.CENTER);
+		GridBagLayout gbl_panelBotao = new GridBagLayout();
+		gbl_panelBotao.columnWidths = new int[] { 220, 340, 220 };
+		gbl_panelBotao.rowHeights = new int[] { 0, 0, 0 };
+		gbl_panelBotao.columnWeights = new double[] { 0.0, 0.0, 0.0 };
+		gbl_panelBotao.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+		panelBotao.setLayout(gbl_panelBotao);
+
+		JButton btnInserirCatalogo = new JButton("Cadastrar");
+		btnInserirCatalogo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (count == 0) {
+					actionBtnCadastrarServico(panelInfos, panelBotao, btnInserirCatalogo);
+				}
+			}
+		});
+		GridBagConstraints gbc_btnInserirCatalogo = new GridBagConstraints();
+		gbc_btnInserirCatalogo.ipadx = 30;
+		gbc_btnInserirCatalogo.ipady = 10;
+		gbc_btnInserirCatalogo.insets = new Insets(0, 0, 0, 5);
+		gbc_btnInserirCatalogo.gridx = 1;
+		gbc_btnInserirCatalogo.gridy = 1;
+		panelBotao.add(btnInserirCatalogo, gbc_btnInserirCatalogo);
+	}
+
+	private void actionBtnCadastrarServico(JPanel panelInfos, JPanel panelBotao, JButton btnInserirCatalogo) {
+		// Servi�o
+		if (txtDescricao.getText().isEmpty() || txtPreco.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Descricao e pre�o precisam ser inseridos!", "Tente novamente",
+					JOptionPane.WARNING_MESSAGE);
+		} else {
+			double preco = converterDouble(txtPreco.getText());
+			if (preco == -1) {
+				JOptionPane.showMessageDialog(null, "Insira um valor v�lido para o pre�o!");
+				txtPreco.setText("");
+			} else {
+				os.addServico_Peca(preco, 1, txtDescricao.getText(), 0);
+
+				JOptionPane.showMessageDialog(null, "Servi�o Inserido com sucesso! Favor inserir as pe�as necess�rias");
+
+				frame.setVisible(false);
+
+				count++;
+				// Pe�as
+				painelPecas(panelInfos, panelBotao, btnInserirCatalogo);
+				frame.setVisible(true);
+			}
+		}
+
+	}
+
+	private void painelPecas(JPanel panelInfos, JPanel panelBotao, JButton btnInserirCatalogo) {
+		// Descri��o
+		txtInserirDescricao.setText("Insira a pe\u00E7a necess�ria para esse servi�o:");
+		txtDescricao.setText("");
+
+		// Pre�o
+		txtInserirPreco.setText("Insira o pre\u00E7o da pe\u00E7a: ");
+		txtPreco.setText("");
+
+		// Quantidade
+		txtInserirQtde = new JTextField();
+		txtInserirQtde.setText("Insira a quantidade dessa pe�a :");
+		txtInserirQtde.setEditable(false);
+		GridBagConstraints gbc_txtInserirQtde = new GridBagConstraints();
+		gbc_txtInserirQtde.insets = new Insets(0, 0, 5, 5);
+		gbc_txtInserirQtde.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtInserirQtde.gridx = 0;
+		gbc_txtInserirQtde.gridy = 2;
+		panelInfos.add(txtInserirQtde, gbc_txtInserirQtde);
+		txtInserirQtde.setColumns(10);
+
+		txtQtde = new JTextField();
+		GridBagConstraints gbc_txtQtde = new GridBagConstraints();
+		gbc_txtQtde.insets = new Insets(0, 0, 5, 0);
+		gbc_txtQtde.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtQtde.gridx = 1;
+		gbc_txtQtde.gridy = 2;
+		panelInfos.add(txtQtde, gbc_txtQtde);
+		txtQtde.setColumns(10);
+
+		btnInserirCatalogo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				actionBtnCadastrarPeca();
+			}
+		});
+	}
+
+	public void actionBtnCadastrarPeca() {
+		int opt = 0;
+		
+		if (txtDescricao.getText().isEmpty() || txtPreco.getText().isEmpty() || txtQtde.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Descri��o, pre�o e quantidade precisam ser inseridos!", "Tente novamente", JOptionPane.WARNING_MESSAGE);
+		}
+		else {
+			double preco = converterDouble(txtPreco.getText());
+			if (preco == -1) {
+				JOptionPane.showMessageDialog(null, "Insira um valor v�lido para o pre�o!");
+				txtPreco.setText("");
+				txtQtde.setText("");
+			}
+			else {
+				int qtde = converterInt(txtQtde.getText());
+				if (qtde == -1) {
+					JOptionPane.showMessageDialog(null, "Insira um valor v�lido para a quantidade!");
+					txtQtde.setText("");
+				}
+				else {
+					os.addServico_Peca(preco, qtde, txtDescricao.getText(), 1);
+					
+					JOptionPane.showMessageDialog(null, "Pe�a inserida com sucesso!");
+					
+					opt = JOptionPane.showConfirmDialog(null, "Deseja inserir mais uma pe�a?", "Selecione uma op��o", JOptionPane.YES_NO_OPTION);
+					if (opt != 0) {
+						
+						controller.addOS(os);
+						
+						JOptionPane.showMessageDialog(null, "Ordem de Servi�o criada com sucesso!");
+						
+						frame.setVisible(false);
+					}
+					else {
+						txtDescricao.setText("");
+						txtPreco.setText("");
+						txtQtde.setText("");
+					}
+				}
+			}
+		}
+	}
+
+	private double converterDouble(String text) {
+		try {
+			double num = Double.parseDouble(text);
+			return num;
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO! O VALOR INSERIDO DEVE SER NUM�RICO",
+					JOptionPane.ERROR_MESSAGE);
+			return -1;
+		}
+	}
+
+	private int converterInt(String text) {
+		try {
+			int num = Integer.parseInt(text);
+			return num;
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO! O VALOR INSERIDO DEVE SER NUM�RICO",
+					JOptionPane.ERROR_MESSAGE);
+			return -1;
+		}
+	}
+
+}
