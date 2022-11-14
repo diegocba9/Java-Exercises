@@ -1,4 +1,4 @@
-package lista02.enunciado;
+package lista02;
 
 import java.util.ArrayList;
 import java.util.Date;
