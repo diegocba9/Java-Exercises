@@ -2,6 +2,8 @@ package lista03;
 
 import java.util.Random;
 
+//Classe que calcula a quantidade de vezes que aparece determinada combinação de resultados em dados de 6 faces através de uma matriz
+
 public class Dices {
 	private int matrix [][] = new int [7][7];
 	
