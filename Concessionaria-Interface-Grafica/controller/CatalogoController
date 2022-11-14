@@ -1,0 +1,21 @@
+package controller;
+
+import model.Catalogo;
+import model.IItem;
+
+public class CatalogoController {
+	
+	private static Catalogo catalogo = new Catalogo();
+	
+	public static void addItem (IItem item) {		
+		catalogo.addItem(item);
+	}
+	
+	public void removeItem (int index) {
+		catalogo.removeItem(index);
+	}
+	
+	public static String listarCatalogo () {
+		return catalogo.listarCatalogo();
+	}
+}
