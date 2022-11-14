@@ -54,7 +54,7 @@ public class Aluno {
 	public String print () {
 		StringBuilder sb = new StringBuilder ();
 		
-		sb.append ("A m�dia total dos alunos � " + getMedia() + "\n");
+		sb.append ("A media total dos alunos é " + getMedia() + "\n");
 		if (isAprovado() == true) {
 			sb.append("O aluno foi aprovado! Nome: " + getNome() + "\n");
 			sb.append("Nota: " + getNota() + "\n");
