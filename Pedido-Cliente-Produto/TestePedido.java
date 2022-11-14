@@ -1,4 +1,4 @@
-package lista02.enunciado;
+package lista02;
 
 import java.util.Date;
 
@@ -43,7 +43,7 @@ public class TestePedido {
 		System.out.println(pedido2.listarPedido());
 		
 		
-		// Pedido2 atualização
+		// Pedido2 atualizaÃ§Ã£o
 		
 		pedido2.removeItem(2);
 
