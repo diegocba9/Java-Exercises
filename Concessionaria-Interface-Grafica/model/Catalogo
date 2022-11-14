@@ -1,0 +1,40 @@
+package model;
+
+import java.util.ArrayList;
+
+
+public class Catalogo {
+
+	private static ArrayList <IItem> listaItens = new ArrayList<IItem>();
+
+	public void addItem (IItem item) {
+		listaItens.add(item);
+	}
+
+	public void removeItem (int index) {
+		listaItens.remove(index);
+	}
+
+	public String listarCatalogo() {
+		StringBuilder sb = new StringBuilder();
+		if (listaItens.isEmpty()) {
+			sb.append ("\n\n\n\tCatalogo vazio!");
+		}
+		else {
+			sb.append("\n\n-------------Catalogo-------------\n");
+
+			for (int i = 0; i < listaItens.size(); i++) {
+				sb.append("\n" + "Tipo de item: ");
+				if (listaItens.get(i).getTipo() == TipoItem.SERVICO) {
+					sb.append("Servico" + "\n");
+				} else {
+					sb.append("Peca" + "\n");
+				}
+
+				sb.append("Descricao: " + listaItens.get(i).getDescricao() + "\n");
+				sb.append("Preco: " + listaItens.get(i).getPreco() + "\n");
+			}
+		}
+		return sb.toString();
+	}
+}
