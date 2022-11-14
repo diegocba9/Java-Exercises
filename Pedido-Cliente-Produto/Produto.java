@@ -1,4 +1,4 @@
-package lista02.enunciado;
+package lista02;
 
 public class Produto {
 	private final int codBarras;
